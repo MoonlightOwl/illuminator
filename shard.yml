@@ -1,0 +1,17 @@
+name: illuminator
+version: 0.1.0
+
+authors:
+  - Dmitry Zhidenkov <dmitry.zhidenkov@gmail.com>
+
+targets:
+  illuminator:
+    main: src/illuminator.cr
+
+dependencies:
+  kemal:
+    github: kemalcr/kemal
+
+crystal: 0.24.1
+
+license: MIT

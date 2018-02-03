@@ -1,0 +1,179 @@
+body {
+  background: #455164;
+  color: #ffffff;
+  margin: 0;
+  font: 12px Consolas, Menlo, Monaco, "Lucida Console", "DejaVu Sans Mono", "Courier New", monospace;
+}
+
+button {
+  border: none;
+  background: none;
+  margin: 0;
+  outline: none;
+  padding: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  cursor: pointer;
+}
+
+a { 
+  text-decoration:none;
+  color: #fff;
+}
+
+.centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+}
+.centered.logo {
+  margin-top: -69px;
+  margin-left: -80px;
+}
+
+#sidebar {
+  position: absolute;
+  width: 220px;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  overflow: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+#sidebar .logo {
+  padding: 20px 30px;
+}
+#sidebar .files {
+  min-height: 100%;
+  padding: 0 30px 0;
+  line-height: 1.4;
+}
+
+
+.list {
+  padding: 6px;
+}
+.list.active {
+  background: rgba(0, 0, 0, .1);
+}
+.list:hover {
+  background: rgba(0, 0, 0, .06);
+}
+.filename:before {
+  padding-right: 6px;
+  content:url("../images/file.png");
+}
+
+#log {
+  background: rgba(0, 0, 0, .1);
+  bottom: 10px;
+  left: 220px;
+  overflow: hidden;
+  position: absolute;
+  right: 10px;
+  top: 20px;
+  line-height: 1.4;
+}
+#log .header {
+  border-bottom: 1px solid #455164;
+  line-height: 40px !important;
+  height: 38px;
+  padding: 0 20px;
+}
+#log .content {
+  top: 39px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: absolute;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  display: table;
+  width: 100%;
+}
+#log .messages {
+  display: table;
+  width: 100%;
+  padding: 0 20px;
+}
+#log .msg {
+  display: table-row;
+  word-wrap: break-word;
+}
+#log .msg:first-child > span {
+  padding-top: 10px;
+}
+#log .msg:last-child {
+  height: 100%;
+}
+#log .msg:last-child .text {
+  padding-bottom: 10px;
+}
+#log .time,
+#log .from,
+#log .text {
+  display: table-cell;
+  padding: 2px 0;
+  vertical-align: top;
+}
+#log .time {
+  color: #ddd;
+  text-align: right;
+  width: 46px;
+  min-width: 46px;
+}
+#log .from {
+  border-right: 1px solid #455164;
+  color: #b1c3ce;
+  padding-right: 10px;
+  text-align: right;
+  width: 134px;
+  min-width: 134px;
+}
+#log a {
+  color: #ffc800;
+}
+#log .from button {
+  color: #ddd !important;
+}
+#log .text {
+  padding-left: 10px;
+  padding-right: 6px;
+}
+#log .wrap,
+#log .text a {
+  font-style: normal;
+  word-break: break-all;
+  word-wrap: break-word;
+}
+#log .someone .text {
+  color: #999;
+}
+#log .error,
+#log .error .from,
+#log .highlight,
+#log .highlight .from {
+  color: #f00;
+}
+#log .join {
+  color: #aaa;
+}
+#log.hide-join .join span,
+#log.hide-mode .mode span,
+#log.hide-motd .motd span,
+#log.hide-nick .nick span,
+#log.hide-part .part span,
+#log.hide-quit .quit {
+  display: none !important;
+}
+#log .action,
+#log .action .user {
+  color: #f39c12 !important;
+}
+#log .action .user:before {
+  content: "* ";
+}
+#log .action .user:after {
+  content: "";
+}
