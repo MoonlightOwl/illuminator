@@ -7,8 +7,8 @@ module Illuminator
   config = Config.new "./config/illuminator.conf"
 
   def self.render_file(path : String, filename : String | Nil, highlight)
-    highlight = HTML.escape(highlight)
-    files = Dir.children(path).sort.reverse
+    highlight = HTML.escape("<#{highlight}>")
+    files = Dir.children(path).select { |file| file.ends_with? ".log" }.sort.reverse
     if filename.is_a? Nil
       if files.empty?
         render "src/views/404.ecr"
@@ -29,16 +29,16 @@ module Illuminator
   end
 
   get "/" do |env|
-    render_file(config.get("path"), nil, (env.params.query.has_key? "highlight") ? "<#{env.params.query["highlight"]}>" : "<>")
+    render_file(config.get("path"), nil, (env.params.query.has_key? "highlight") ? env.params.query["highlight"] : "")
   end
   get "/index.html" do |env|
-    render_file(config.get("path"), nil, (env.params.query.has_key? "highlight") ? "<#{env.params.query["highlight"]}>" : "<>")
+    render_file(config.get("path"), nil, (env.params.query.has_key? "highlight") ? env.params.query["highlight"] : "")
   end
   get "/:filename" do |env|
     render_file(
       config.get("path"),
       env.params.url["filename"],
-      env.params.query.has_key?("highlight") ? "<#{env.params.query["highlight"]}>" : "<>"
+      env.params.query.has_key?("highlight") ? env.params.query["highlight"] : ""
     )
   end
 
