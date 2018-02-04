@@ -26,9 +26,7 @@
         <% log.messages.each do |message| %>
           <div class="msg <% if message[:nickname] == "***" %>join<% elsif message[:nickname] == "*" %>action<% else %>message<% end %>">
             <span class="time"><%= message[:time] %></span>
-            <span class="from">
-              <button class="user"><%= message[:nickname] %></button>
-            </span>
+            <span class="from"><%= message[:nickname] %></span>
             <span class="text"><%= message[:text] %></span>
           </div>
         <% end %> 

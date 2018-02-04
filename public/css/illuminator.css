@@ -93,12 +93,11 @@ a {
 }
 #log .messages {
   display: table;
-  width: 100%;
   padding: 0 20px;
+  white-space: pre-wrap;
 }
 #log .msg {
   display: table-row;
-  word-wrap: break-word;
 }
 #log .msg:first-child > span {
   padding-top: 10px;
@@ -140,6 +139,7 @@ a {
 #log .text {
   padding-left: 10px;
   padding-right: 6px;
+  word-break: break-word;
 }
 #log .wrap,
 #log .text a {
@@ -156,6 +156,7 @@ a {
 #log .highlight .from {
   color: #f00;
 }
+#log .join .from,
 #log .join {
   color: #aaa;
 }
@@ -168,6 +169,7 @@ a {
   display: none !important;
 }
 #log .action,
+#log .action .from,
 #log .action .user {
   color: #f39c12 !important;
 }
