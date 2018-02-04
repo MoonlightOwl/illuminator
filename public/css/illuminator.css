@@ -45,7 +45,7 @@ a {
   padding: 20px 30px;
 }
 #sidebar .files {
-  height: calc(100% - 179px);
+  height: calc(100% - 192px);
   padding: 0 30px 0;
   line-height: 1.4;
   overflow-y: auto;
