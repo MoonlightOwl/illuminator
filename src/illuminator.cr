@@ -6,33 +6,39 @@ require "kemal"
 module Illuminator
   config = Config.new "./config/illuminator.conf"
 
-  files = Dir.children(config.get("path")).sort.reverse
+  def self.render_file(path : String, filename : String | Nil)
+    files = Dir.children(path).sort.reverse
+    if filename.is_a? Nil
+      if files.empty?
+        render "src/views/404.ecr"
+      else
+        current_file = files.first
+        log = Log.new(path + current_file)
+        render "src/views/index.ecr"
+      end
+    else
+      if File.exists? path + filename
+        current_file = path
+        log = Log.new(path + filename)
+        render "src/views/index.ecr"
+      else
+        render "src/views/404.ecr"
+      end
+    end
+  end
+
+  get "/" do
+    render_file(config.get("path"), nil)
+  end
+  get "/index.html" do
+    render_file(config.get("path"), nil)
+  end
+  get "/:filename" do |env|
+    render_file(config.get("path"), env.params.url["filename"])
+  end
 
   error 404 do
     render "src/views/404.ecr"
-  end
-
-  def self.render_index(path, files)
-    current_file = files.first
-    log = Log.new(path + current_file)
-    render "src/views/index.ecr"
-  end
-
-  get "/index.html" do
-    render_index(config.get("path"), files)
-  end
-  get "/" do
-    render_index(config.get("path"), files)
-  end
-
-  get "/:filename" do |env|
-    current_file = env.params.url["filename"]
-    if File.exists? config.get("path") + current_file
-      log = Log.new(config.get("path") + current_file)
-      render "src/views/index.ecr"
-    else
-      render "src/views/404.ecr"
-    end
   end
 
   Kemal.config.port = config.get("port").to_i
