@@ -24,7 +24,7 @@
     <div class="content">
       <div class="messages">
         <% log.messages.each do |message| %>
-          <div class="msg <% if message[:nickname] == "***" %>join<% elsif message[:nickname] == "*" %>action<% else %>message<% end %>">
+          <div class="msg <% if message[:nickname] == "***" %>join<% elsif message[:nickname] == "*" %>action<% else %>message<% end %> <% if message[:nickname] == highlight %>highlight<% end %>">
             <span class="time"><%= message[:time] %></span>
             <span class="from"><%= message[:nickname] %></span>
             <span class="text"><%= message[:text] %></span>
@@ -35,8 +35,15 @@
   </div>
   <script type="text/javascript">
     (function() {
-      var messages = document.getElementsByClassName("content")[0]
-      messages.scrollTop = messages.scrollHeight;
+      var content = document.getElementsByClassName("content")[0]
+      content.scrollTop = content.scrollHeight;
+
+      content.addEventListener("click", function(e) {
+        if (e.target.className == "from") {
+          var nickname = e.target.textContent.slice(1, -1)
+          window.location.replace('/<%=current_file%>?highlight=' + nickname);
+        }
+      });
     })();
   </script>
 </body>

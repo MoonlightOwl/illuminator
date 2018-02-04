@@ -130,6 +130,7 @@ a {
   text-align: right;
   width: 134px;
   min-width: 134px;
+  cursor: pointer;
 }
 #log a {
   color: #ffc800;
@@ -148,14 +149,12 @@ a {
   word-break: break-all;
   word-wrap: break-word;
 }
-#log .someone .text {
-  color: #999;
-}
 #log .error,
-#log .error .from,
-#log .highlight,
-#log .highlight .from {
+#log .error .from {
   color: #f00;
+}
+#log .highlight .from {
+  color: #f39c12;
 }
 #log .join .from,
 #log .join {

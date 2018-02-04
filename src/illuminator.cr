@@ -6,7 +6,8 @@ require "kemal"
 module Illuminator
   config = Config.new "./config/illuminator.conf"
 
-  def self.render_file(path : String, filename : String | Nil)
+  def self.render_file(path : String, filename : String | Nil, highlight)
+    highlight = HTML.escape(highlight)
     files = Dir.children(path).sort.reverse
     if filename.is_a? Nil
       if files.empty?
@@ -18,7 +19,7 @@ module Illuminator
       end
     else
       if File.exists? path + filename
-        current_file = path
+        current_file = filename
         log = Log.new(path + filename)
         render "src/views/index.ecr"
       else
@@ -27,14 +28,18 @@ module Illuminator
     end
   end
 
-  get "/" do
-    render_file(config.get("path"), nil)
+  get "/" do |env|
+    render_file(config.get("path"), nil, (env.params.query.has_key? "highlight") ? "<#{env.params.query["highlight"]}>" : "<>")
   end
-  get "/index.html" do
-    render_file(config.get("path"), nil)
+  get "/index.html" do |env|
+    render_file(config.get("path"), nil, (env.params.query.has_key? "highlight") ? "<#{env.params.query["highlight"]}>" : "<>")
   end
   get "/:filename" do |env|
-    render_file(config.get("path"), env.params.url["filename"])
+    render_file(
+      config.get("path"),
+      env.params.url["filename"],
+      env.params.query.has_key?("highlight") ? "<#{env.params.query["highlight"]}>" : "<>"
+    )
   end
 
   error 404 do
