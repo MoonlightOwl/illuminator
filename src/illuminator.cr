@@ -1,5 +1,6 @@
 require "./illuminator/*"
 require "./config"
+require "./log"
 require "kemal"
 
 module Illuminator
@@ -12,6 +13,7 @@ module Illuminator
   end
   get "/" do
     current_file = files.first
+    log = Log.new(config.get("path") + current_file)
     render "src/views/index.ecr"
   end
 

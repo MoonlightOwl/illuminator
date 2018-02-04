@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
 <head>
+  <meta charset="utf-8">
   <title>Illuminator: #CC.RU logs</title>
   <link rel="stylesheet" href="/css/illuminator.css"/>
   <link rel="icon" type="image/x-icon" href="favicon.png" />
@@ -22,38 +23,15 @@
     </div>
     <div class="content">
       <div class="messages">
-        <div class="msg join">
-          <span class="time">22:23</span>
-          <span class="from">
-            <button class="user">--></button>
-          </span>
-          <span class="text">Totoro joined the channel</span>
-        </div>
-        <div class="msg message self">
-          <span class="time">22:59</span>
-          <span class="from">
-            <button class="user">Totoro</button>
-          </span>
-          <span class="text">
-            unicorns forever
-          </span>
-        </div>
-        <div class="msg message">
-          <span class="time">23:00</span>
-          <span class="from">
-            <button class="user">Totoro</button>
-          </span>
-          <span class="text">
-            forever and ever
-          </span>
-        </div>
-        <div class="msg action">
-          <span class="time">23:23</span>
-          <span class="from">
-            <button class="user">Totoro</button>
-          </span>
-          <span class="text">is crazy</span>
-        </div>
+        <% log.messages.each do |message| %>
+          <div class="msg <% if message[:nickname] == "***" %>join<% elsif message[:nickname] == "*" %>action<% else %>message<% end %>">
+            <span class="time"><%= message[:time] %></span>
+            <span class="from">
+              <button class="user"><%= message[:nickname] %></button>
+            </span>
+            <span class="text"><%= message[:text] %></span>
+          </div>
+        <% end %> 
       </div>
     </div>
   </div>
