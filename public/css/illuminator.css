@@ -62,7 +62,7 @@ a {
 }
 .filename:before {
   padding-right: 6px;
-  content:url("../images/file.png");
+  content:url("/images/file.png");
 }
 
 #log {
