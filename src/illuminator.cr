@@ -1,7 +1,10 @@
 require "./illuminator/*"
+require "./config"
 require "kemal"
 
 module Illuminator
+  config = Config.new "./config/illuminator.conf"
+
   error 404 do
     render "src/views/404.ecr"
   end
@@ -9,6 +12,6 @@ module Illuminator
     render "src/views/index.ecr"
   end
 
-  Kemal.config.port = 1095
+  Kemal.config.port = config.get("port").to_i
   Kemal.run
 end
