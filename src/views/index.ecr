@@ -9,24 +9,26 @@
   <aside id="sidebar">
     <img class="logo" src="/images/logo.png" alt="Illuminator Logo">
     <div class="files">
-      <div class="list filename active"><a href="/03.02.2018.log">03.02.2018.log</a></div>
-      <div class="list filename"><a href="/02.02.2018.log">02.02.2018.log</a></div>
-      <div class="list filename"><a href="/01.02.2018.log">01.02.2018.log</a></div>
+      <% files.each do |file| %>
+        <div class="list filename <% if file == current_file %>active<% end %>">
+          <a href="/<%= file %>"><%= file %></a>
+        </div>
+      <% end %>  
     </div>
   </aside>
   <div id="log">
     <div class="header">
-      <span class="filename">03.02.2018.log</span>
+      <span class="filename"><%= current_file %></span>
     </div>
     <div class="content">
       <div class="messages">
-      <div class="msg join">
-        <span class="time">22:23</span>
-        <span class="from">
-          <button class="user">--></button>
-        </span>
-        <span class="text">Totoro joined the channel</span>
-      </div>
+        <div class="msg join">
+          <span class="time">22:23</span>
+          <span class="from">
+            <button class="user">--></button>
+          </span>
+          <span class="text">Totoro joined the channel</span>
+        </div>
         <div class="msg message self">
           <span class="time">22:59</span>
           <span class="from">
