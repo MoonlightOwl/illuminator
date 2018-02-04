@@ -23,9 +23,9 @@
     </div>
     <div class="content">
       <div class="messages">
-        <% log.messages.each do |message| %>
+        <% log.messages.each_with_index do |message, i| %>
           <div class="msg <% if message[:nickname] == "***" %>join<% elsif message[:nickname] == "*" %>action<% else %>message<% end %> <% if message[:nickname] == highlight %>highlight<% end %>">
-            <span class="time"><%= message[:time] %></span>
+            <a id="<%= i %>" class="time" href="#<%= i %>"><%= message[:time] %></a>
             <span class="from"><%= message[:nickname] %></span>
             <span class="text"><%= message[:text] %></span>
           </div>
@@ -36,7 +36,11 @@
   <script type="text/javascript">
     (function() {
       var content = document.getElementsByClassName("content")[0]
-      content.scrollTop = content.scrollHeight;
+
+      if (window.location.hash)
+        content.scrollTop = document.getElementById(window.location.hash.substr(1)).offsetTop;
+      else
+        content.scrollTop = content.scrollHeight;
 
       content.addEventListener("click", function(e) {
         if (e.target.className == "from") {
