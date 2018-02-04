@@ -87,9 +87,8 @@ a {
   left: 0;
   right: 0;
   position: absolute;
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
-  display: table;
+  overflow: hidden;
+  overflow-y: auto;
   width: 100%;
 }
 #log .messages {
@@ -171,9 +170,16 @@ a {
 #log .action .user {
   color: #f39c12 !important;
 }
-#log .action .user:before {
-  content: "* ";
+
+::-webkit-scrollbar {
+  width: 10px;
 }
-#log .action .user:after {
-  content: "";
+::-webkit-scrollbar-track {
+  background: transparent; 
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, .1);; 
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, .2);; 
 }
