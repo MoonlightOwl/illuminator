@@ -5,8 +5,7 @@ module Illuminator
 
     def initialize(@path)
       lines = File.read_lines(path)
-      fields = lines.map { |line| line.split(':') }.transpose
-      @hash = Hash.zip(fields[0], fields[1])
+      @hash = lines.map { |line| line.split(':') }.to_h
     end
 
     def get(key)
