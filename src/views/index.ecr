@@ -27,7 +27,7 @@
           <div class="msg <% if message[:nickname] == "***" %>join<% elsif message[:nickname] == "*" %>action<% else %>message<% end %> <% if message[:nickname] == highlight %>highlight<% end %>">
             <a id="<%= i %>" class="time" href="#<%= i %>"><%= message[:time] %></a>
             <span class="from"><%= message[:nickname] %></span>
-            <span class="text"><%= message[:text] %></span>
+            <span class="text"><%= renderer.renderLine(message[:text]) %></span>
           </div>
         <% end %> 
       </div>

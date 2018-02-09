@@ -1,12 +1,15 @@
 require "./illuminator/*"
 require "./config"
 require "./log"
+require "./renderer"
 require "kemal"
 
 module Illuminator
   config = Config.new "./config/illuminator.conf"
+  renderer = Renderer.new
 
   def self.render_file(path : String, filename : String | Nil, highlight)
+    renderer = Renderer.new
     highlight = HTML.escape("<#{highlight}>")
     files = Dir.children(path).select { |file| file.ends_with? ".log" }.sort.reverse
     if filename.is_a? Nil
