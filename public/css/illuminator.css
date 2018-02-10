@@ -40,7 +40,12 @@ a {
   left: 0;
   bottom: 0;
   overflow: hidden;
-  -webkit-overflow-scrolling: touch;
+  user-drag: none; 
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }
 #sidebar .logo {
   padding: 20px 30px;
@@ -55,12 +60,22 @@ a {
 
 .list {
   padding: 6px;
+  -o-transition:1s;
+  -ms-transition:1s;
+  -moz-transition:1s;
+  -webkit-transition:1s;
+  transition:1s;
 }
 .list.active {
-  background: rgba(0, 0, 0, .1);
+  background: rgba(0, 0, 0, .15);
 }
 .list:hover {
-  background: rgba(0, 0, 0, .06);
+  background: rgba(0, 0, 0, .25);
+  -o-transition:.1s;
+  -ms-transition:.1s;
+  -moz-transition:.1s;
+  -webkit-transition:.1s;
+  transition:.1s;
 }
 .filename:before {
   padding-right: 6px;
@@ -82,6 +97,23 @@ a {
   line-height: 40px !important;
   height: 38px;
   padding: 0 20px;
+}
+#log .header .header-button {
+  float:right; clear:right;
+  padding: 0 10px;
+  -o-transition:1s;
+  -ms-transition:1s;
+  -moz-transition:1s;
+  -webkit-transition:1s;
+  transition:1s;
+}
+#log .header .header-button:hover {
+  background-color: #455164;
+  -o-transition:.1s;
+  -ms-transition:.1s;
+  -moz-transition:.1s;
+  -webkit-transition:.1s;
+  transition:.1s;
 }
 #log .content {
   top: 39px;
