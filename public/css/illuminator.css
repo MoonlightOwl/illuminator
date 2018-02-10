@@ -17,9 +17,9 @@ button {
   cursor: pointer;
 }
 
-a { 
-  text-decoration:none;
-  color: #fff;
+a {
+  text-decoration: none;
+  color: #ffffff;
 }
 
 .centered {
@@ -31,6 +31,7 @@ a {
   margin-top: -69px;
   margin-left: -80px;
 }
+
 
 #sidebar {
   position: absolute;
@@ -132,9 +133,6 @@ a {
   min-width: 134px;
   cursor: pointer;
 }
-#log a {
-  color: #ffc800;
-}
 #log .from button {
   color: #ddd !important;
 }
@@ -148,6 +146,7 @@ a {
   font-style: normal;
   word-break: break-all;
   word-wrap: break-word;
+  text-decoration: underline dotted;
 }
 #log .error,
 #log .error .from {

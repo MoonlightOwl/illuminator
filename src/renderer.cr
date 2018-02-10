@@ -1,3 +1,5 @@
+require "./line_iterator"
+
 module Illuminator
   class Renderer
     @tag_was_opened = false
@@ -7,6 +9,7 @@ module Illuminator
       "fore" => "99", "back" => "99",
       "bold" => false, "italic" => false, "strikethrough" => false, "underline" => false,
     }
+    @valid_url_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~:/?#[]@!$&'()*+,;=`.%"
 
     def set_stack_to_defaults
       @stack_defaults.each do |key, value|
@@ -27,48 +30,57 @@ module Illuminator
       @tag_was_opened = false
       #
       String.build do |str|
-        chars = text.each_char
+        chars = LineIterator.new text
         loop do
-          char = chars.next
-          case char
-          when Iterator::Stop::INSTANCE
+          if !processChar(str, chars)
             break
-          when '\u0002' # bold
-            @stack["bold"] = true
-            @stack_did_change = true
-          when '\u001D' # italic
-            @stack["italic"] = true
-            @stack_did_change = true
-          when '\u001F' # underline
-            @stack["underline"] = true
-            @stack_did_change = true
-          when '\u001E' # strikethrough
-            @stack["strikethrough"] = true
-            @stack_did_change = true
-          when '\u0003' # color
-            fore = readCode(chars)
-            break if fore.is_a? Iterator::Stop
-            @stack["fore"] = fore
-            @stack_did_change = true
-            next_one = chars.next
-            if next_one == ','
-              back = readCode(chars)
-              break if back.is_a? Iterator::Stop
-              @stack["back"] = back
-            else
-              put(str, next_one)
-            end
-          when '\u000F' # reset
-            set_stack_to_defaults
-            @stack_did_change = true
-          else
-            put(str, char)
           end
         end
         if @tag_was_opened
           str << "</span>"
         end
       end
+    end
+
+    def processChar(str, chars)
+      char = chars.next
+      case char
+      when Iterator::Stop::INSTANCE
+        return false
+      when 'h' # possible beginning of an url
+        processUrl(str, chars)
+      when '\u0002' # bold
+        @stack["bold"] = true
+        @stack_did_change = true
+      when '\u001D' # italic
+        @stack["italic"] = true
+        @stack_did_change = true
+      when '\u001F' # underline
+        @stack["underline"] = true
+        @stack_did_change = true
+      when '\u001E' # strikethrough
+        @stack["strikethrough"] = true
+        @stack_did_change = true
+      when '\u0003' # color
+        fore = readCode(chars)
+        return false if fore.is_a? Iterator::Stop
+        @stack["fore"] = fore
+        @stack_did_change = true
+        next_one = chars.next
+        if next_one == ','
+          back = readCode(chars)
+          return false if back.is_a? Iterator::Stop
+          @stack["back"] = back
+        else
+          put(str, next_one)
+        end
+      when '\u000F' # reset
+        set_stack_to_defaults
+        @stack_did_change = true
+      else
+        put(str, char)
+      end
+      return true
     end
 
     def readCode(chars)
@@ -81,6 +93,27 @@ module Illuminator
           code << first
           code << second
         end
+      end
+    end
+
+    def processUrl(str, chars)
+      url = String.build do |u|
+        u << 'h'
+        loop do
+          char = chars.next
+          if char.is_a? Iterator::Stop || !@valid_url_chars.includes? char
+            break
+          else
+            u << char
+          end
+        end
+      end
+      if url.starts_with?("http://") || url.starts_with?("https://")
+        str << "<a href=\"#{url}\">#{url}</a>"
+        chars.back
+      else
+        str << 'h'
+        chars.back url.size
       end
     end
 
