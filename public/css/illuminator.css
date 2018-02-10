@@ -97,11 +97,14 @@ a {
   display: table;
   padding: 0 20px;
   white-space: pre-wrap;
+  table-layout: fixed;
+  width: 100%;
+  box-sizing: border-box;
 }
 #log .msg {
   display: table-row;
 }
-#log .msg:first-child > span {
+#log .msg:first-child > * {
   padding-top: 10px;
 }
 #log .msg:last-child {
@@ -117,19 +120,18 @@ a {
   padding: 2px 0;
   vertical-align: top;
   word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 #log .time {
   color: #ddd;
   text-align: right;
-  width: 46px;
-  min-width: 46px;
+  width: 11ch;
 }
 #log .from {
   border-right: 1px solid #455164;
   padding-right: 10px;
   text-align: right;
-  width: 134px;
-  min-width: 134px;
+  width: 23ch;
   cursor: pointer;
 }
 #log .from.common {
