@@ -72,7 +72,7 @@ module Illuminator
           return false if back.is_a? Iterator::Stop
           @stack["back"] = back
         else
-          put(str, next_one)
+          chars.back
         end
       when '\u000F' # reset
         set_stack_to_defaults
