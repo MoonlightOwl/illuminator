@@ -126,12 +126,14 @@ a {
 }
 #log .from {
   border-right: 1px solid #455164;
-  color: #b1c3ce;
   padding-right: 10px;
   text-align: right;
   width: 134px;
   min-width: 134px;
   cursor: pointer;
+}
+#log .from.common {
+  color: #b1c3ce;
 }
 #log .from button {
   color: #ddd !important;
@@ -167,6 +169,9 @@ a {
   color: #f00;
 }
 #log .highlight .from {
+  font-weight: bold;
+}
+#log .highlight .from.common {
   color: #f39c12;
 }
 #log .join .from,

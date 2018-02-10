@@ -8,9 +8,9 @@ module Illuminator
   config = Config.new "./config/illuminator.conf"
   renderer = Renderer.new
 
-  def self.render_file(path : String, filename : String | Nil, highlight)
+  def self.render_file(path : String, filename : String | Nil, params)
     renderer = Renderer.new
-    highlight = HTML.escape("<#{highlight}>")
+    highlight = HTML.escape("<#{params["highlight"]}>")
     files = Dir.children(path).select { |file| file.ends_with? ".log" }.sort.reverse
     if filename.is_a? Nil
       if files.empty?
@@ -31,18 +31,24 @@ module Illuminator
     end
   end
 
+  def self.collect_params(env)
+    params = {"highlight" => "", "colorize" => false}
+    params.each_key do |key|
+      if env.params.query.has_key? key
+        params[key] = env.params.query[key]
+      end
+    end
+    params
+  end
+
   get "/" do |env|
-    render_file(config.get("path"), nil, (env.params.query.has_key? "highlight") ? env.params.query["highlight"] : "")
+    render_file(config.get("path"), nil, collect_params(env))
   end
   get "/index.html" do |env|
-    render_file(config.get("path"), nil, (env.params.query.has_key? "highlight") ? env.params.query["highlight"] : "")
+    render_file(config.get("path"), nil, collect_params(env))
   end
   get "/:filename" do |env|
-    render_file(
-      config.get("path"),
-      env.params.url["filename"],
-      env.params.query.has_key?("highlight") ? env.params.query["highlight"] : ""
-    )
+    render_file(config.get("path"), env.params.url["filename"], collect_params(env))
   end
 
   error 404 do

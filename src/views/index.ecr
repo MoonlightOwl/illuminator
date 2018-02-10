@@ -26,7 +26,7 @@
         <% log.messages.each_with_index do |message, i| %>
           <div class="msg <% if message[:nickname] == "***" %>join<% elsif message[:nickname] == "*" %>action<% else %>message<% end %> <% if message[:nickname] == highlight %>highlight<% end %>">
             <a id="<%= i %>" class="time" href="#<%= i %>"><%= message[:time] %></a>
-            <span class="from"><%= message[:nickname] %></span>
+            <%= renderer.renderNickname(message[:nickname], params["colorize"]) %>
             <span class="text"><%= renderer.renderLine(message[:text]) %></span>
           </div>
         <% end %> 
