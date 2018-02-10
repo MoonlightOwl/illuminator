@@ -43,7 +43,7 @@
         content.scrollTop = content.scrollHeight;
 
       content.addEventListener("click", function(e) {
-        if (e.target.className == "from") {
+        if (e.target.className.lastIndexOf("from") === 0) {
           var nickname = e.target.textContent.slice(1, -1)
           window.location.replace('/<%=current_file%>?highlight=' + nickname);
         }
