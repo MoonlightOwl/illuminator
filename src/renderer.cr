@@ -109,10 +109,12 @@ module Illuminator
         end
       end
       if url.starts_with?("http://") || url.starts_with?("https://")
-        str << "<a href=\"#{url}\">#{url}</a>"
+        "<a href=\"#{url}\">#{url}</a>".each_char do |char|
+          put(str, char)
+        end
         chars.back
       else
-        str << 'h'
+        put(str, 'h')
         chars.back url.size
       end
     end

@@ -146,7 +146,20 @@ a {
   font-style: normal;
   word-break: break-all;
   word-wrap: break-word;
-  text-decoration: underline dotted;
+  text-decoration: underline dotted #637592;
+  -o-transition:1s;
+  -ms-transition:1s;
+  -moz-transition:1s;
+  -webkit-transition:1s;
+  transition:1s;
+}
+#log .text a:hover {
+  background-color: #455164;
+  -o-transition:.1s;
+  -ms-transition:.1s;
+  -moz-transition:.1s;
+  -webkit-transition:.1s;
+  transition:.1s;
 }
 #log .error,
 #log .error .from {
@@ -180,10 +193,10 @@ a {
   background: transparent; 
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, .1);; 
+  background: rgba(0, 0, 0, .15);; 
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, .2);; 
+  background: rgba(0, 0, 0, .25);; 
 }
 
 /* Text styles */
