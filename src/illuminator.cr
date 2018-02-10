@@ -38,6 +38,7 @@ module Illuminator
         params[key] = env.params.query[key]
       end
     end
+    params["query"] = env.request.query_params.to_s
     params
   end
 

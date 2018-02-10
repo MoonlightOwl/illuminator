@@ -12,7 +12,7 @@
     <div class="files">
       <% files.each do |file| %>
         <div class="list filename <% if file == current_file %>active<% end %>">
-          <a href="/<%= file %>"><%= file %></a>
+          <a href="/<%= file %><% if !params["query"].is_a? Nil %>?<%= params["query"] %><% end %>"><%= file %></a>
         </div>
       <% end %>  
     </div>
@@ -45,7 +45,7 @@
       content.addEventListener("click", function(e) {
         if (e.target.className.lastIndexOf("from") === 0) {
           var nickname = e.target.textContent.slice(1, -1)
-          window.location.replace('/<%=current_file%>?highlight=' + nickname);
+          window.location.replace('/<%=current_file%>?highlight=' + nickname<% if params["colorize"] %>+ '&colorize=true'<% end %>);
         }
       });
     })();
