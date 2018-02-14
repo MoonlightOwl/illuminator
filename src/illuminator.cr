@@ -2,16 +2,20 @@ require "./illuminator/*"
 require "./config"
 require "./log"
 require "./renderer"
+require "./search"
 require "kemal"
 
 module Illuminator
   config = Config.new "./config/illuminator.conf"
-  renderer = Renderer.new
+
+  def self.files_list(path : String)
+    Dir.children(path).select { |file| file.ends_with? ".log" }.sort.reverse
+  end
 
   def self.render_file(path : String, filename : String | Nil, params)
     renderer = Renderer.new
     highlight = HTML.escape("<#{params["highlight"]}>")
-    files = Dir.children(path).select { |file| file.ends_with? ".log" }.sort.reverse
+    files = files_list(path)
     if filename.is_a? Nil
       if files.empty?
         render "src/views/404.ecr"
@@ -32,7 +36,7 @@ module Illuminator
   end
 
   def self.collect_params(env)
-    params = {"highlight" => "", "colorize" => false}
+    params = {"highlight" => "", "colorize" => "false", "q" => "", "page" => "0"}
     params.each_key do |key|
       if env.params.query.has_key? key
         params[key] = env.params.query[key]
@@ -50,6 +54,23 @@ module Illuminator
   end
   get "/:filename" do |env|
     render_file(config.get("path"), env.params.url["filename"], collect_params(env))
+  end
+
+  get "/search" do |env|
+    if env.params.query.has_key?("q") && !env.params.query["q"].empty?
+      renderer = Renderer.new
+      files = files_list(config.get("path"))
+      params = collect_params(env)
+      request = params["q"]
+      if request.is_a? String && request.size > 2
+        page = params["page"].to_i
+        if page >= 0
+          search = Search.new config.get("path"), request, page
+          next render "src/views/search.ecr"
+        end
+      end
+    end
+    render "src/views/404.ecr"
   end
 
   error 404 do

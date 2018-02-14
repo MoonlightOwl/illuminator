@@ -7,7 +7,7 @@
   <link rel="icon" type="image/x-icon" href="favicon.png" />
 </head>
 <body>
-  <aside id="sidebar">
+  <aside id="sidebar" class="nonselectable">
     <a href="/"><img class="logo" src="/images/logo.png" alt="Illuminator Logo"></a>
     <div class="files">
       <% files.each do |file| %>
@@ -20,6 +20,10 @@
   <div id="log">
     <div class="header">
       <span class="filename"><%= current_file %></span>
+      <span id="search-container">
+        <img id="search-icon" src="/images/search.png" />
+        <input type="search" id="search" placeholder="search..." onkeydown="search(this)" />
+      </span>
       <a href="/download/<%= current_file %>" class="header-button">raw</a>
     </div>
     <div class="content">
@@ -35,6 +39,12 @@
     </div>
   </div>
   <script type="text/javascript">
+    function search(element) {
+      if(event.key === 'Enter') {
+        window.location.href = '/search?q=' + element.value<% if !params["query"].is_a? Nil %> + '&<%= params["query"] %>'<% end %>;
+      }
+    }
+
     (function() {
       var content = document.getElementsByClassName("content")[0]
 

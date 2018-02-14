@@ -156,7 +156,7 @@ module Illuminator
 
     # generate colored nickname
     def renderNickname(nickname, colored)
-      if colored
+      if colored == "true"
         color = "fore#{(nickname.bytes.sum { |char| char.to_i } % 11 + 3).to_s.rjust(2, '0')}"
         "<span class=\"from #{color}\">#{nickname}</span>"
       else
