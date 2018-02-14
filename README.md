@@ -4,7 +4,7 @@
 
 Web interface for IRC logs from channel #CC.RU on Esper.Net.
 
-You can find the working beta [here](http://fomalhaut.me:1095/).
+You can find the working beta [here](https://logs.fomalhaut.me/).
 
 # installation
 
