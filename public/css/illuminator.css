@@ -1,3 +1,9 @@
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
 body {
   background: #455164;
   color: #ffffff;
@@ -111,7 +117,7 @@ a {
 #log .header {
   border-bottom: 1px solid #455164;
   line-height: 40px !important;
-  height: 38px;
+  height: 40px;
   padding: 0 20px;
 }
 #log .header .filename {
@@ -125,6 +131,7 @@ a {
   -moz-transition:1s;
   -webkit-transition:1s;
   transition:1s;
+  height: 100%;
 }
 #log .header .header-button:hover {
   background-color: #455164;
@@ -141,7 +148,7 @@ a {
   background-color: transparent;
   color: #ffffff;
   border: none;
-  padding: 4px 2px;
+  padding: 5px 2px 4px 2px;
   -o-transition: 1s;
   -ms-transition: 1s;
   -moz-transition: 1s;
