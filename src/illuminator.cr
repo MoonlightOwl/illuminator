@@ -8,13 +8,18 @@ require "kemal"
 module Illuminator
   config = Config.new "./config/illuminator.conf"
 
+  def self.render_query(params : Hash(String, String | Nil), prefix = "")
+    query = params.compact.map { |key, value| "#{key}=#{value}" }.join("&")
+    query.size > 0 ? prefix + query : ""
+  end
+
   def self.files_list(path : String)
     Dir.children(path).select { |file| file.ends_with? ".log" }.sort.reverse
   end
 
   def self.render_file(path : String, filename : String | Nil, params)
     renderer = Renderer.new
-    highlight = HTML.escape("<#{params["highlight"]}>")
+    highlight = HTML.escape("<#{params.fetch("highlight", "")}>")
     files = files_list(path)
     if filename.is_a? Nil
       if files.empty?
@@ -36,13 +41,13 @@ module Illuminator
   end
 
   def self.collect_params(env)
-    params = {"highlight" => "", "colorize" => "false", "q" => "", "page" => "0"}
-    params.each_key do |key|
-      if env.params.query.has_key? key
-        params[key] = env.params.query[key]
+    keys = ["highlight", "colorize", "q", "page"]
+    params = {} of String => String | Nil
+    env.params.query.each do |name, value|
+      if keys.includes? name
+        params[name] = value
       end
     end
-    params["query"] = env.request.query_params.to_s
     params
   end
 
@@ -61,11 +66,10 @@ module Illuminator
       renderer = Renderer.new
       files = files_list(config.get("path"))
       params = collect_params(env)
-      request = params["q"]
-      if request.is_a? String
-        request = request.delete '"'
+      if params["q"]?.is_a? String
+        request = params["q"].as(String).delete '"'
         if request.size > 2
-          page = params["page"].to_i
+          page = params["page"]?.is_a?(String) ? params["page"].as(String).to_i : 0
           if page >= 0
             search = Search.new config.get("path"), request, page
             next render "src/views/search.ecr"

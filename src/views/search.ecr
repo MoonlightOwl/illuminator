@@ -12,7 +12,7 @@
     <div class="files">
       <% files.each do |file| %>
         <div class="list filename">
-          <a href="/<%= file %><% if !params["query"].is_a? Nil %>?<%= params["query"] %><% end %>"><%= file %></a>
+          <a href="/<%= file %><%= render_query(params.reject("q", "page"), "?") %>"><%= file %></a>
         </div>
       <% end %>  
     </div>
@@ -36,19 +36,19 @@
           <% result[:messages].each do |message| %>
             <div class="msg <% if message[:nickname] == "***" %>join<% elsif message[:nickname] == "*" %>action<% end %>">
               <a class="time" href="/<%= message[:file] %>#<%= message[:line] %>"><%= message[:time] %></a>
-              <%= renderer.renderNickname(message[:nickname], params["colorize"]) %>
+              <%= renderer.renderNickname(message[:nickname], params.fetch("colorize", "false")) %>
               <span class="text"><%= renderer.renderLine(message[:text]) %></span>
             </div>
           <% end %>
-        <% end %> 
+        <% end %>
       </div>
       <div class="pagination nonselectable">
         <% if page > 0 %>
-          <a href="/search?q=<%= request %>&page=<%= page - 1 %>"><img id="prev" class="arrow" src="/images/left.png" /></a>
+          <a href="/search?q=<%= request %>&page=<%= page - 1 %><%= render_query(params.reject("q", "page"), "&") %>"><img id="prev" class="arrow" src="/images/left.png" /></a>
         <% end %>
         <span class="numbers"><%= page + 1 %> / <%= search.pages_total %></span>
         <% if page < search.pages_total - 1 %>
-          <a href="/search?q=<%= request %>&page=<%= page + 1 %>"><img id="next" class="arrow" src="/images/right.png" /></a>
+          <a href="/search?q=<%= request %>&page=<%= page + 1 %><%= render_query(params.reject("q", "page"), "&") %>"><img id="next" class="arrow" src="/images/right.png" /></a>
         <% end %>
       </div>
     </div>
@@ -56,7 +56,7 @@
   <script type="text/javascript">
     function search(element) {
       if(event.key === 'Enter') {
-        window.location.href = '/search?q=' + element.value<% if !params["query"].is_a? Nil %> + '&<%= params["query"] %>'<% end %>;
+        window.location.href = '/search?q=' + element.value + '<%= render_query(params.reject("q"), "&") %>';
       }
     }
     (function() {
