@@ -22,7 +22,7 @@
       <span class="filename"><%= current_file %></span>
       <span id="search-container">
         <img id="search-icon" src="/images/search.png" />
-        <input type="search" id="search" placeholder="search..." onkeydown="search(this)" />
+        <input type="search" id="search" placeholder="search..." />
       </span>
       <a href="/download/<%= current_file %>" class="header-button">raw</a>
     </div>
@@ -39,20 +39,19 @@
     </div>
   </div>
   <script type="text/javascript">
-    function search(element) {
-      if(event.key === 'Enter') {
-        window.location.href = '/search?q=' + element.value + '<%= render_query(params.reject("q"), "&") %>';
-      }
-    }
-
     (function() {
-      var content = document.getElementsByClassName("content")[0]
+      var search = document.getElementById("search");
+      search.addEventListener("keydown", function(event) {
+        if (event.keyCode === 13) {
+          window.location.href = '/search?q=' + search.value + '<%= render_query(params.reject("q"), "&") %>';
+        }
+      });
 
+      var content = document.getElementsByClassName("content")[0]
       if (window.location.hash)
         content.scrollTop = document.getElementById(window.location.hash.substr(1)).offsetTop;
       else
         content.scrollTop = content.scrollHeight;
-
       content.addEventListener("click", function(e) {
         if (e.target.className.lastIndexOf("from") === 0) {
           var nickname = e.target.textContent.slice(1, -1)
