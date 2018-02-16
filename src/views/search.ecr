@@ -11,9 +11,7 @@
     <a href="/"><img class="logo" src="/images/logo.png" alt="Illuminator Logo"></a>
     <div class="files">
       <% files.each do |file| %>
-        <div class="list filename">
-          <a href="/<%= file %><%= render_query(params.reject("q", "page"), "?") %>"><%= file %></a>
-        </div>
+        <a class="list filename" href="/<%= file %><%= render_query(params.reject("q", "page"), "?") %>"><%= file %></a>
       <% end %>  
     </div>
   </aside>
