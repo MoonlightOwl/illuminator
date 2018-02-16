@@ -50,16 +50,16 @@ module Illuminator
       when 'h' # possible beginning of an url
         processUrl(str, chars)
       when '\u0002' # bold
-        @stack["bold"] = true
+        @stack["bold"] = !@stack["bold"]
         @stack_did_change = true
       when '\u001D' # italic
-        @stack["italic"] = true
+        @stack["italic"] = !@stack["italic"]
         @stack_did_change = true
       when '\u001F' # underline
-        @stack["underline"] = true
+        @stack["underline"] = !@stack["underline"]
         @stack_did_change = true
       when '\u001E' # strikethrough
-        @stack["strikethrough"] = true
+        @stack["strikethrough"] = !@stack["strikethrough"]
         @stack_did_change = true
       when '\u0003' # color
         fore = readCode(chars)
