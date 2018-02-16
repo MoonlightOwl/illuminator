@@ -22,7 +22,10 @@
         <img id="search-icon" src="/images/search.png" />
         <input type="search" id="search" placeholder="search..." />
       </span>
-      <a href="/download/<%= current_file %>" class="header-button">raw</a>
+      <span class="header-buttons">
+        <a href="/<%= current_file %><%= render_query(params.merge({ "colorize" => "true" }), "?") %>">colorize</a>
+        <a href="/download/<%= current_file %>">raw</a>
+      </span>
     </div>
     <div class="content">
       <div class="messages">

@@ -124,17 +124,21 @@ a {
 #log .header .filename {
   float: left; clear: left;
 }
-#log .header .header-button {
+#log .header .header-buttons {
   float: right; clear: right;
+  height: 100%;
+}
+#log .header .header-buttons a {
+  display: inline-block;
   padding: 0 10px;
+  height: 100%;
   -o-transition:1s;
   -ms-transition:1s;
   -moz-transition:1s;
   -webkit-transition:1s;
   transition:1s;
-  height: 100%;
 }
-#log .header .header-button:hover {
+#log .header .header-buttons a:hover {
   background-color: #455164;
   -o-transition:.1s;
   -ms-transition:.1s;
