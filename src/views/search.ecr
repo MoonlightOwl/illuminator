@@ -28,12 +28,12 @@
         <% search.results.each do |result| %>
           <div class="msg">
             <span class="time group"></span>
-            <span class="from group">from <a href="/<%= result[:file] %>"><%= result[:file] %></a>:</span>
+            <span class="from group">from <a href="/<%= result[:file] %><%= render_query(params.reject("q", "page"), "?") %>"><%= result[:file] %></a>:</span>
             <span class="text group"></span>
           </div>
           <% result[:messages].each do |message| %>
             <div class="msg <% if message[:nickname] == "***" %>join<% elsif message[:nickname] == "*" %>action<% end %>">
-              <a class="time" href="/<%= message[:file] %>#<%= message[:line] %>"><%= message[:time] %></a>
+              <a class="time" href="/<%= message[:file] %><%= render_query(params.reject("q", "page"), "?") %>#<%= message[:line] %>"><%= message[:time] %></a>
               <%= renderer.renderNickname(message[:nickname], params.fetch("colorize", "false")) %>
               <span class="text"><%= renderer.renderLine(message[:text]) %></span>
             </div>
