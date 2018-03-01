@@ -14,8 +14,8 @@ module Illuminator
       @pages_total = 0
       total = 0
       offset = page * @@PAGE_SIZE
+      messages = [] of Message
       files.each { |file|
-        messages = [] of Message
         number = 0
         File.each_line(path + file) do |line|
           if line.downcase.includes? request
@@ -28,6 +28,7 @@ module Illuminator
         end
         if !messages.empty?
           @results << {file: file, messages: messages}
+          messages = [] of Message
         end
         @pages_total = total / @@PAGE_SIZE
       }
