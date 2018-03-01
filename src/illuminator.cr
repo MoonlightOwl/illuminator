@@ -67,11 +67,11 @@ module Illuminator
       files = files_list(config.get("path"))
       params = collect_params(env)
       if params["q"]?.is_a? String
-        request = params["q"].as(String).delete '"'
+        request = params["q"].as(String)
         if request.size > 2
           page = params["page"]?.is_a?(String) ? params["page"].as(String).to_i : 0
           if page >= 0
-            search = Search.new config.get("path"), request, page
+            search = Search.new config.get("path"), files, request.downcase, page
             next render "src/views/search.ecr"
           end
         end
