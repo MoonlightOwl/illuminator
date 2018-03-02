@@ -71,6 +71,7 @@ module Illuminator
         if request.size > 2
           page = params["page"]?.is_a?(String) ? params["page"].as(String).to_i : 0
           if page >= 0
+            highlight = HTML.escape("<#{params.fetch("highlight", "")}>")
             search = Search.new config.get("path"), files, request.downcase, page
             next render "src/views/search.ecr"
           end

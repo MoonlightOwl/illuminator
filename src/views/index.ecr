@@ -49,10 +49,12 @@
       });
 
       var content = document.getElementsByClassName("content")[0]
+      
       if (window.location.hash)
         content.scrollTop = document.getElementById(window.location.hash.substr(1)).offsetTop;
       else
         content.scrollTop = content.scrollHeight;
+
       content.addEventListener("click", function(e) {
         if (e.target.className.lastIndexOf("from") === 0) {
           var nickname = e.target.textContent.slice(1, -1)

@@ -35,7 +35,7 @@
             <span class="text group"></span>
           </div>
           <% result[:messages].each do |message| %>
-            <div class="msg <% if message[:nickname] == "***" %>join<% elsif message[:nickname] == "*" %>action<% end %>">
+            <div class="msg <% if message[:nickname] == "***" %>join<% elsif message[:nickname] == "*" %>action<% end %><% if message[:nickname] == highlight %> highlight<% end %>">
               <a class="time" href="/<%= message[:file] %><%= render_query(params.reject("q", "page"), "?") %>#<%= message[:line] %>"><%= message[:time] %></a>
               <%= renderer.renderNickname(message[:nickname], params.fetch("colorize", "false")) %>
               <span class="text"><%= renderer.renderLine(message[:text]) %></span>
@@ -62,10 +62,19 @@
           window.location.href = '/search?q=' + search.value + '<%= render_query(params.reject("q", "page"), "&") %>';
         }
       });
+
+      var content = document.getElementsByClassName("content")[0]
+
       if (window.location.hash) {
-        var content = document.getElementsByClassName("content")[0]
         content.scrollTop = document.getElementById(window.location.hash.substr(1)).offsetTop;
       }
+
+      content.addEventListener("click", function(e) {
+        if (e.target.className.lastIndexOf("from") === 0) {
+          var nickname = e.target.textContent.slice(1, -1)
+          window.location.replace('/search?highlight=' + nickname + '<%= render_query(params.reject("highlight"), "&") %>');
+        }
+      });
     })();
   </script>
 </body>
