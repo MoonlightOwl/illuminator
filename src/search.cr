@@ -30,7 +30,7 @@ module Illuminator
           @results << {file: file, messages: messages}
           messages = [] of Message
         end
-        @pages_total = total / @@PAGE_SIZE
+        @pages_total = (total.to_f / @@PAGE_SIZE).ceil.to_i
       }
     end
 
