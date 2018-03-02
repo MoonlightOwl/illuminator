@@ -22,6 +22,9 @@
         <img id="search-icon" src="/images/search.png" />
         <input type="search" id="search" placeholder="search..." />
       </span>
+      <span class="header-buttons">
+        <a href="/search<%= render_query(params.merge({ "colorize" => "true" }), "?") %>">colorize</a>
+      </span>
     </div>
     <div class="content">
       <div class="messages">
