@@ -63,16 +63,28 @@ module Illuminator
         @stack_did_change = true
       when '\u0003' # color
         fore = readCode(chars)
-        return false if fore.is_a? Iterator::Stop
-        @stack["fore"] = fore
-        @stack_did_change = true
-        next_one = chars.next
-        if next_one == ','
-          back = readCode(chars)
-          return false if back.is_a? Iterator::Stop
-          @stack["back"] = back
+        if fore.is_a? Iterator::Stop
+          return false
+        elsif fore.is_a? Nil.class
+          chars.back 2
+          put(str, char)
         else
-          chars.back
+          @stack["fore"] = fore
+          @stack_did_change = true
+          next_one = chars.next
+          if next_one == ','
+            back = readCode(chars)
+            if back.is_a? Iterator::Stop
+              return false
+            elsif back.is_a? Nil.class
+              chars.back 2
+              put(str, ',')
+            else
+              @stack["back"] = back
+            end
+          else
+            chars.back
+          end
         end
       when '\u000F' # reset
         set_stack_to_defaults
@@ -88,6 +100,8 @@ module Illuminator
       second = chars.next
       if first.is_a? Iterator::Stop || second.is_a? Iterator::Stop
         Iterator::Stop::INSTANCE
+      elsif !first.ascii_number? || !second.ascii_number?
+        Nil
       else
         String.build do |code|
           code << first
